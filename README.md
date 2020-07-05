@@ -25,10 +25,10 @@ yarn dev
 
 ```bash
 npm install
-npm run build && npm start
+npm run prod
 # or
 yarn
-yarn build && yarn start
+yarn prod
 ```
 
 7. Navigate http://localhost:3000
