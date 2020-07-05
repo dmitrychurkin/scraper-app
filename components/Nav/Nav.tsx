@@ -1,26 +1,39 @@
 import { Navbar, Button, Modal } from 'react-bootstrap';
-import { memo, useState, useCallback } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 
-const Nav = (): JSX.Element => {
+type Props = {
+  readonly hasArticles: boolean;
+  readonly setError: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      message: string;
+    }>
+  >;
+};
+
+const Nav = ({ hasArticles, setError }: Props): JSX.Element => {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(false);
 
   const handleFetch = useCallback(async () => {
     setLoading(true);
     try {
-      await fetch('/api/fetch-articles');
-      setShow(true);
+      const response = await fetch('/api/fetch-articles');
+      const { success, error = {} } = await response.json();
+      if (success) {
+        setShow(true);
+      } else {
+        setError((state) => ({ ...state, ...error }));
+      }
     } catch (err) {
-      setError(err.message);
+      setError((state) => ({ ...state, name: err.name, message: err.message }));
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleCloseModal = useCallback(() => {
     setShow(false);
-    setError(false);
   }, []);
 
   return (
@@ -30,13 +43,13 @@ const Nav = (): JSX.Element => {
           Super Brand
         </Navbar.Brand>
         <Button variant="primary" onClick={handleFetch} disabled={loading}>
-          Fetch Articles
+          {hasArticles ? 'Refresh articles' : 'Fetch Articles'}
         </Button>
       </Navbar>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Body>{error || 'Articles fetched!'}</Modal.Body>
+      <Modal show={show} onHide={handleCloseModal}>
+        <Modal.Body>Articles fetched!</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
         </Modal.Footer>

@@ -1,30 +1,6 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 
-// import { db } from '../connection';
-
-export class Article extends Model {
-  // private static _isMigrated = false;
-  // public static async migrate(): Promise<void> {
-  //   if (!Article._isMigrated) {
-  //     console.log('Run migrations!');
-  //     await db
-  //       .establish()
-  //       .then((sequelize) => {
-  //         return Article.sync(
-  //           process.env.NODE_ENV !== 'production'
-  //             ? { force: true, alter: true }
-  //             : {}
-  //         );
-  //       })
-  //       .then(() => {
-  //         Article._isMigrated = true;
-  //       })
-  //       .catch(console.error.bind(console));
-  //   }
-  // }
-}
-
-// Article.migrate();
+export class Article extends Model {}
 
 export default (sequelize: Sequelize): Article =>
   Article.init(

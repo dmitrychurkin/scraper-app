@@ -1,28 +1,34 @@
 version: '3.2'
 
 services:
-  #     image: mysql:5.7
-  #     restart: always
-  #     environment:
-  #       MYSQL_DATABASE: 'scraper-app'
-  #       # So you don't have to use root, but you can if you like
-  #       MYSQL_USER: 'user'
-  #       # You can use whatever password you like
-  #       MYSQL_PASSWORD: 'password'
-  #       # Password for root access
-  #       MYSQL_ROOT_PASSWORD: 'password'
-  #     ports:
-  #       # <Port exposed> : < MySQL Port running inside container>
-  #       - '3306:3306'
-  #     expose:
-  #       # Opens port 3306 on the container
-  #       - '3306'
-  #       # Where our data will be persisted
-  #     volumes:
-  #       - my-db:/var/lib/mysql
-  # # Names our volume
-  # volumes:
-  #   my-db:
+  scraper-app-proxy:
+    container_name: scraper-app-proxy
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - scraper-app
+    ports:
+      - '80:80'
+      - '443:443'
+    networks:
+      - scraper-net
+  scraper-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scraper-app
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - scraper-app-db
+    volumes:
+      - .:/usr/src/app
+      - /usr/app/node_modules
+      - /usr/app/.next
+    networks:
+      - scraper-net
   scraper-app-db:
     image: mysql:8.0
     container_name: scraper-app-db
@@ -45,13 +51,3 @@ volumes:
 networks:
   scraper-net:
     driver: bridge
-  # scraper-app-db-admin:
-  #   depends_on:
-  #     - scraper-app-db
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: scraper-app-db-admin
-  #   restart: always
-  #   ports:
-  #     - '8080:80'
-  #   environment:
-  #     PMA_HOST: scraper-app-db

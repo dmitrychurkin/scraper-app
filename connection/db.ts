@@ -2,21 +2,20 @@ import { Sequelize, Dialect } from 'sequelize';
 import article from '../model/article';
 
 const {
-  MYSQL_USER = 'user',
-  MYSQL_PASSWORD = 'user',
-  MYSQL_DATABASE = 'scraper-app',
-  DB_HOST = 'scraper-app-db',
-  DB_PORT = '3306',
-  NODE_ENV = 'development',
+  MYSQL_USER,
+  MYSQL_PASSWORD,
+  MYSQL_DATABASE,
+  DB_HOST,
+  DB_PORT,
 } = process.env;
 
 export default class Db {
   private static _config = {
-    username: MYSQL_USER,
-    password: MYSQL_PASSWORD,
-    database: MYSQL_DATABASE,
-    host: DB_HOST,
-    port: Number.parseInt(DB_PORT),
+    username: MYSQL_USER ?? 'user',
+    password: MYSQL_PASSWORD ?? 'user',
+    database: MYSQL_DATABASE ?? 'scraper-app',
+    host: DB_HOST ?? 'scraper-app-db',
+    port: Number.parseInt(DB_PORT ?? '3306'),
   };
 
   private static _connection: Sequelize;
@@ -34,9 +33,7 @@ export default class Db {
 
       await this._connection.authenticate();
       article(this._connection);
-      await this._connection.sync(
-        NODE_ENV !== 'production' ? { force: true, alter: true } : {}
-      );
+      await this._connection.sync({ force: true, alter: true });
     }
 
     return this._connection;
