@@ -43,8 +43,8 @@ yarn build && yarn start
 
 #### Demo screeshots
 
-![no articles](https://github.com/dmitrychurkin/scraper-app/blob/master/Screenshot_6.png?raw=true)
+![no articles](https://github.com/dmitrychurkin/scraper-app/blob/master/screenshots/Screenshot_6.png?raw=true)
 
-![clisk to fetch articles](https://github.com/dmitrychurkin/scraper-app/blob/master/Screenshot_1.png?raw=true)
+![clisk to fetch articles](https://github.com/dmitrychurkin/scraper-app/blob/master/screenshots/Screenshot_1.png?raw=true)
 
-![after page refresh](https://github.com/dmitrychurkin/scraper-app/blob/master/Screenshot_2.png?raw=true)
+![after page refresh](https://github.com/dmitrychurkin/scraper-app/blob/master/screenshots/Screenshot_2.png?raw=true)
