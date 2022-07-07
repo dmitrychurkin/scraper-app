@@ -27,7 +27,7 @@
   "dependencies": {
     "bootstrap": "4.5.0",
     "cheerio": "1.0.0-rc.3",
-    "moment": "2.27.0",
+    "moment": "2.29.4",
     "mysql2": "2.1.0",
     "next": "latest",
     "node-fetch": "2.6.0",
